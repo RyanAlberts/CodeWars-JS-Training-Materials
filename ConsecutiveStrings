@@ -1,0 +1,46 @@
+function longestConsec (strarr, k) {
+  var n = strarr.length;
+  var prelimLongest = " ";
+  var Result;
+  var tempArray1 = [];
+  var tempArray2 = [];
+  var NewArrayPreceding = [];
+  var NewArrayAfter = [];
+  if (n == 0 || k > n || k<= 0) {
+    return '';
+  } else {
+      for (i = 0; i < strarr.length; i++) {
+           NewArrayPreceding = strarr.slice((i - (k-1)), (i + 1));
+           NewArrayAfter     = strarr.slice(i, (i + k));
+           tempArray1.push(String(NewArrayPreceding.join("")));
+           tempArray2.push(String(NewArrayPreceding.join("")));
+      }
+      for (i = 0; i < tempArray1.length; i++) {
+        if (tempArray1[i].length > prelimLongest.length && tempArray1[i].length >= tempArray2[i].length) {
+                prelimLongest         = tempArray1[i];
+        } else   if (tempArray2[i].length > prelimLongest.length && tempArray2[i].length > tempArray1[i].length) {
+                prelimLongest         = tempArray2[i];
+        }
+    }
+         Result = prelimLongest;
+        return Result;
+  }
+}
+
+
+
+//--> Alternative approach
+
+function longestConsec(strarr, k) {
+  if (k <= 0 || k > strarr.length) {
+    return '';
+  }
+  
+  return strarr.reduce((long, item, i) => {
+    const currString = strarr.slice(i, i + k).join('');
+    return (currString.length > long.length)
+      ? currString
+      : long;
+  }, '');
+}
+
