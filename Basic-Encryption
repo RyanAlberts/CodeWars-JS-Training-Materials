@@ -1,0 +1,44 @@
+function encrypt(text, n) {
+    var newText = "";
+    var tempString = "";
+    if (text == null || text == "" || n <= 0)  {
+      return text;
+    } else {
+      for (a = 0; a < n; a++)  { 
+        for (i = 0; i < text.length; i++)  {
+          if (i % 2 == 0)  {
+          		newText += text.charAt(i);
+          } else {
+          		tempString += text.charAt(i);
+          }
+        }
+      text = tempString.concat(newText);
+      newText = "";
+      tempString = "";
+      }
+    return text;
+  }
+}
+
+console.log(encrypt("This is a test!", 1));
+
+function decrypt(encryptedText, n) {
+    var oldText = "";
+    var tempString = "";
+    if (encryptedText == null || encryptedText == "" || n <= 0)  {
+      return encryptedText;
+    } else {
+      for (a = 0; a < n; a++)  { 
+          tempString = encryptedText.slice(0,(encryptedText.length / 2));
+          encryptedText = encryptedText.slice((encryptedText.length / 2));
+          for (i = 0; i < encryptedText.length; i++)  {
+              oldText += encryptedText.charAt(i) + tempString.charAt(i);
+          }
+          encryptedText = oldText;
+          oldText = "";
+          }
+      }
+    return encryptedText;
+}
+
+console.log(decrypt("s eT ashi tist!", 2));
