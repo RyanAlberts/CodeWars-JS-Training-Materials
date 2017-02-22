@@ -1,0 +1,21 @@
+
+var maxRedigit = function(num) {
+  var tempArray = [];
+  if (num < 100 || num > 999) {
+    tempArray = null;
+  } else   {
+    tempArray.push(num % 10);
+    tempArray.push(Math.floor((num / 10) % 10));
+    tempArray.push(Math.floor((num / 100) % 10));
+    tempArray.sort(function(a, b){return b-a});
+    tempArray = Number(tempArray.join(""));
+  }
+  return tempArray;
+};
+
+
+var maxRedigit1 = function(num) {
+  return num > 99 && num < 1000 ? String(num).split('').sort().reverse().join('') : null;
+};
+
+console.log(maxRedigit1(378));
