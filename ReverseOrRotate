@@ -1,0 +1,27 @@
+function revrot(str, sz) {
+	var myArray = [];
+	var result = "";
+    if (sz <= 0 || str == "" || sz > str.length)  {
+      return "";
+    } else  {
+    	myArray = str.match(new RegExp('.{1,' + sz + '}', 'g'));
+    	for (i = 0; i < myArray.length; i++)	{
+    		var myNewArray = myArray[i].split("");
+   			var sum = 0;
+    			for (a = 0; a < myNewArray.length; a++)	{
+    				sum += Math.pow(myNewArray[a],3);
+    			}
+    			if (sum % 2 == 0)	{
+    				myNewArray = myNewArray.reverse().join("");
+    			} else	{
+    			myNewArray.push(myNewArray[0]);
+    			myNewArray.shift();
+    			myNewArray = myNewArray.join("");
+    			}
+    	result += myNewArray;
+		}
+	}
+	return result;
+}
+
+console.log(revrot("123456987654", 4));
