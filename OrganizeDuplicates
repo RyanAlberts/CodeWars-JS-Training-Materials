@@ -1,0 +1,62 @@
+function group(arr) {
+    var sortedResult = [], result = [], sortedArray = [];
+    for (var i = 0; i < arr.length; i++)    {
+        sortedArray.push(arr[i]);
+    }
+    sortedArray.sort();    
+    if (isNaN(arr[0]))  {
+        return result;
+    } else {
+        var value = [], frequency = [], prev;
+        for (var i = 0; i < sortedArray.length; i++)    {
+            if (sortedArray[i] !== prev ) {
+                value.push(sortedArray[i]);
+                frequency.push(1);
+            } else {
+                frequency[frequency.length-1]++;
+            }
+            prev = sortedArray[i];
+        }
+        for (a = 0; a < value.length; a++)  {
+            var temp = [];   
+            for (b = 0; b < frequency[a]; b++)  {
+                temp.push(value[a]);
+            }
+            sortedResult.push(temp);
+        }
+        for (c = 0; c < arr.length; c++)  {
+            var index = value.indexOf(arr[c]);
+            if (index != -1)    {
+                result.push(sortedResult[index]);
+                sortedResult.splice(index,1);
+                value.splice(index,1);
+            }
+        }
+    }
+    return result;
+}
+
+
+
+function group(arr) {
+  const order = [],
+  counter = {};
+  arr.forEach(val => {
+    if (!counter.hasOwnProperty(val)) {
+      order.push(val);
+    }
+    counter[val] = (counter[val] || 0) + 1;
+  });
+  return order.map(x => Array.from({length: counter[x]}, () => x));
+}
+
+
+function group(arr) {
+  var result = [];
+  while(arr.length > 0)
+  {
+    result.push(arr.filter(a => a == arr[0]));
+    arr = arr.filter(a => a != arr[0]);    
+  }
+  return result;
+}
