@@ -1,0 +1,46 @@
+
+function pigIt(str){
+    var result = "";
+    var index;
+    var myArray = str.split(' ');
+    for (var i = 0; i < myArray.length; i++)  {
+        if (0 < i && i < myArray.length) {
+            result = result.concat(" ");
+        }        
+        for (var y = 0; y < myArray[i].length; y++) {
+            if (y > 0)  {
+                result += myArray[i][y];
+            } else {
+                index = myArray[i][y] + 'ay';
+                myArray[i] += index;
+            }
+        }
+    }
+   return result;
+}
+
+
+console.log(pigIt('Pig latin is cool'));
+
+
+
+
+
+
+function pigIt(str){
+  return str.split(' ').map(function(el){
+    return el.slice(1) + el.slice(0,1) + 'ay';
+  }).join(' ');
+}
+
+
+
+
+
+function pigIt(str){
+  var words = str.split(" ");
+  for (w in words) {
+    words[w] = words[w].slice(1) + words[w].slice(0,1) + "ay"
+  }
+  return words.join(" ");
+}
