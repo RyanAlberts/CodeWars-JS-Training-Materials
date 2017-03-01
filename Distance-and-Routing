@@ -1,0 +1,49 @@
+function tour(friends, fTowns, distTable) {
+    var distance = 0;
+    var myArray = [];
+    var sortedDistances = [];
+outermost:
+    for (a = 0; a < friends.length; a++)  {
+        var index1;
+        for (b = 0; b < fTowns.length; b++) {
+        index1 = fTowns[b].indexOf(friends[a]);
+            if (index1 != -1)    {
+                myArray.push(fTowns[b][1]);
+                continue outermost;
+            }
+        }
+    }
+    for (c = 0; c < myArray.length; c++)  {
+        var index2 = distTable.indexOf(myArray[c]) + 1;
+        sortedDistances.push(myArray[c]);
+        sortedDistances.push(distTable[index2]);
+    }
+    for (i = 0; i < sortedDistances.length-2; i+=2) {
+        var btwFriends = Math.sqrt(Math.pow(sortedDistances[i+3],2) - Math.pow(sortedDistances[i+1],2));
+        distance += btwFriends;
+        if (i == 0)   {
+            distance += sortedDistances[i+1];
+        }
+        if (i == sortedDistances.length-4) {
+            distance += sortedDistances[i+3];
+        }
+    }
+    distance = Math.floor(distance);
+    return distance;
+}
+
+
+var friends1 = ["A1", "A2"];
+var fTowns1 = [["A1", "X1"], ["A2", "X2"], ["A3", "X3"], ["A4", "X4"], ["A5", "X5"]];
+var distTable1 = ['X1', 50, 'X2', 70, 'X3', 250, 'X4', 300, 'X5', 320];
+
+console.log(tour(friends1,fTowns1,distTable1));
+
+
+// distance from each destination to the next = b in a^2 + b^2 = c^2
+//distance from first and last destination is equal to that in the distTable1   
+
+//   distTable1[1]  dist. x1 + var = X2   dist. x2 + var = x3    etc.            = Math.floor(SUM of distances)
+ //  =>x1 100       =>x2 173              =>x3 150             =>x4 165 =>x0 300 = 889 (integer floor of total)
+
+
