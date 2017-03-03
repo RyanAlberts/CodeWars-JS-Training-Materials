@@ -1,0 +1,25 @@
+function charCheck(text, max, spaces){
+    var result = [];
+    if (spaces == false)    {
+        text = text.replace(/[ ]/g, "");
+    }
+    if (text.length <= max) {
+        result.push(true);
+        result.push(text);        
+    }   else {
+        result.push(false);
+        text = text.slice(0,max);
+        result.push(text);       
+    }
+    return result;
+}
+
+
+
+
+
+
+function charCheck(text, max, spaces){
+  text == spaces ? text : text.replace(/ /g, '');
+  return [text.length <= max, text.substring(0, max)]
+};
