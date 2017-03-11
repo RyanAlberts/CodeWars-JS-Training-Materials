@@ -1,0 +1,39 @@
+function productFib(prod){
+  var fibArray = [0,1],
+      productArray = [],
+      newFib = 1,
+      i = 0;
+  while (prod > (newFib * fibArray[i])) {
+  	i++;
+  	newFib = newFib + fibArray[i-1];
+  	fibArray.push(newFib);
+  }
+  var falseValue = fibArray[i] + fibArray[i-1];
+  if (prod == (newFib * fibArray[i]))	{
+  	productArray.push(fibArray[i]);
+  	productArray.push(newFib);
+  	productArray.push(true);
+  } else {
+  	productArray.push(fibArray[i]);
+  	productArray.push(falseValue);
+  	productArray.push(false);
+  }
+  return productArray;
+}
+
+
+
+
+
+
+
+
+function productFib(prod){
+  var n = 0;
+  var nPlus = 1;  
+  while(n*nPlus < prod) {
+    nPlus = n + nPlus;
+    n = nPlus - n;
+  }
+  return [n, nPlus, n*nPlus===prod];
+}
