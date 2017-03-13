@@ -1,0 +1,19 @@
+function countNewFriends(n){
+	var newFriends = [];
+	var nDivisors = [];
+	for (i = 2; i <= n/2; i++)	{
+		if (n % i === 0) nDivisors.push(i);
+	}
+	for (b = 2; b < n; b++)	{      
+		var isNew = true;
+		var c = 0;
+		while (c < nDivisors.length && isNew == true)	{	
+			if (b % nDivisors[c] === 0) isNew = false;
+			c++;
+		}
+		if (isNew === true) newFriends.push(b);
+	}
+  	return newFriends.length;
+}
+
+
