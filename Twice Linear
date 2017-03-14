@@ -1,0 +1,32 @@
+function dblLinear(n) {
+    //     
+    var yCurrent;
+    var zCurrent;
+    var count      = 0,
+        index      = 0,
+        result     = [1],
+    	max        = (n * 1.35)/2;
+    while (index <= max)	{
+    	yCurrent = 2 * result[index - (count*49)] +1;
+    	zCurrent = 3 * result[index - (count*49)] +1;
+    	if (result.lastIndexOf(yCurrent) == -1)	{
+    		result[result.length++] = yCurrent;
+    	}
+    	if (result.lastIndexOf(zCurrent) == -1)	{
+    		result[result.length++] = zCurrent;
+    	}
+    	result = result.sort((a,b)=>{return a-b});
+    	if (result.length == 99)	{
+    		count++;
+    		result = result.slice(49);
+    	}
+    	index ++;
+    }  
+    return result;
+}
+
+
+
+
+
+console.log(dblLinear(100));
