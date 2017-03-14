@@ -1,0 +1,44 @@
+function findAll(n, k) {
+    //if    1 > k > (9 * k) (e.g. if k = 4, 4 < n < 36) else empty set
+    var result = [];
+    if (n > (9*k) || n < k)	{
+    	return result;
+    } else {
+    	var min   = "",
+    	    max   = "",
+    	    count = 0,
+    		remainder = n;
+    	for (i = 1; i <= k; i++) {
+    		if ((k - i) * 9 >= remainder)	{
+    			min = min.concat(1);
+    			remainder -= 1;
+    		} else 	{
+    			min = min.concat(remainder - ((k - i) * 9));
+    			remainder -= (remainder - ((k - i) * 9));
+    		} 
+    	}
+    	remainder = 0;
+    	for (a = 0; a < k; a++) {
+    		max = max.concat(Math.floor((n - remainder) / (k - a)));
+    		remainder += Math.floor((n - remainder) / (k - a));
+    	}
+    	var range = 1 + (max - min);
+       	for (b = 0; b < range; b++)	{
+    		var tempSum = 0,
+    		    temp    = Number(min) + b,
+    		    digitIndex = 9;
+    		while (temp > 0 && digitIndex >= temp % 10 && tempSum <= n)	{
+    			tempSum += temp % 10;
+    			digitIndex = temp % 10;
+    		    temp = Math.floor(temp/10);
+    		}
+			if (tempSum === n && temp === 0)	{
+				count++;
+			}
+    	}
+    }
+    result[result.length++] = count;
+    result[result.length++] = min;
+    result[result.length++] = max;	
+    return result;
+}
