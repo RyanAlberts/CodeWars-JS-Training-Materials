@@ -1,0 +1,71 @@
+function justify(str, len) {
+  var result = "";
+  var lengthArray = [];
+  var wordArray = str.split(" ");
+  for (i = 0; i < wordArray.length; i++)	{
+  	lengthArray.push(wordArray[i].length);
+  }
+  while (lengthArray.length > 0)	{
+  	var currentWordGroup = [];
+  	var lineLength  = 0;
+  	var index = 0;
+  	if (typeof lengthArray[1] == "undefined" || (lengthArray[0] + lengthArray[1]) >= len) {
+  		lengthArray.length == 1 ? (result = result.concat(wordArray[0])) : result = result.concat(wordArray[0] + "\n");
+  		wordArray.shift();
+  		lengthArray.shift();
+   	} else	{
+  		while ((lineLength + (index-1)) < len && (index < lengthArray.length))	{
+  			currentWordGroup.push(wordArray[index]);
+  			lineLength += lengthArray[index];
+  			index++;
+  		}
+  		if ((lineLength + (index-1)) == len && index != lengthArray.length)	{
+  			while (currentWordGroup.length > 1)	{
+  				result = result.concat(currentWordGroup[0] + " ");
+  	  			wordArray.shift();
+  				lengthArray.shift();
+  				currentWordGroup.shift();
+  			}
+  			result = result.concat(currentWordGroup[0] + "\n");
+  				wordArray.shift();
+  				lengthArray.shift();
+  		} else if ((lineLength + (index-1)) > len) {
+  			lineLength -= currentWordGroup[index-1].length;
+  			currentWordGroup.pop();
+  			index--;
+  			var remainderForSpaces = len - lineLength;
+  			var perWord            = remainderForSpaces / (index-1);
+  			for (b = 0; b < currentWordGroup.length - 1; b++)	{
+  				var spaces = "";
+  				for (c = 0; c < Math.ceil(perWord); c++)	{
+  					spaces = spaces.concat(" ");
+  				}
+  				result = result.concat(currentWordGroup[b] + spaces);
+  				wordArray.shift();
+  				lengthArray.shift();
+  				remainderForSpaces -= spaces.length;
+  				index--;
+  				remainderForSpaces > 0 ? (perWord = remainderForSpaces / (index - 1)) : perWord = 0;
+  			}
+  			result = result.concat(currentWordGroup[currentWordGroup.length-1] + "\n");
+  			wordArray.shift();
+  			lengthArray.shift();
+  		} else {
+  			for (d = 0; d < currentWordGroup.length; d++)	{
+  				result = result.concat(currentWordGroup[d] + " ");
+  				wordArray.shift();
+  				lengthArray.shift();
+  			}
+  		}
+  	}
+  }
+  result = result.trim();
+  return result;
+}
+
+
+
+
+var example = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sagittis dolor.";
+
+console.log(justify(example,10));
