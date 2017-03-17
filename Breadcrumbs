@@ -1,5 +1,4 @@
 function generateBC(url, separator) {
-  // split url string into chunks at every "/" 
   // convert all characters to uppercase
   //if any element in newly created array includes "index.", delete element
   // start from the back of url => delete everything after "#" or "?"
