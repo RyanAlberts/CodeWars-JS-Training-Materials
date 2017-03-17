@@ -1,0 +1,56 @@
+function generateBC(url, separator) {
+  // split url string into chunks at every "/" 
+  // convert all characters to uppercase
+  //if any element in newly created array includes "index.", delete element
+  // start from the back of url => delete everything after "#" or "?"
+  // check  element length >= 30, if so split string at "-", .every taking only 1st ltr, checking against ignore list
+  // first, set everything before ".com" to <a href="/">HOME</a> 
+    var breadcrumbs  = "",
+        ignoreList   = ["the","of","in","from","by","with","and", "or", "for", "to", "at", "a"],
+        removeAfter  = [".htm",".php",".asp","?","#","index"],
+        removeBefore = [".com",".uk",".fr",".it",".pi",".ca",".de"];
+    for (c = 0; c < removeBefore.length; c++) {
+          if (url.includes(removeBefore[c]))  {
+              url = url.substr(url.indexOf(removeBefore[c]));
+          }
+        }
+    for (d = 0; d < removeAfter.length; d++) {
+          if (url.includes(removeAfter[d]))  {
+              url = url.substr(0,url.indexOf(removeAfter[d]));
+          }
+        }
+    var elements     = url.split("/");
+    for (e = 0; e < elements.length; e++) {
+      if (elements[e].length == 0) elements.pop();
+    }
+    for (i = 0; i < elements.length; i++) {
+      if (elements[i].length > 30)  {
+        var tooLong = elements[i].split("-");
+        var acronym = "";
+        for (a = 0; a < tooLong.length; a++)  {
+          if (ignoreList.indexOf(tooLong[a]) == -1)  {
+            acronym = acronym.concat(tooLong[a][0]);
+          }
+        }
+      }
+      if (i == 0 && i !== elements.length - 1) {
+            breadcrumbs = breadcrumbs.concat('<a href="/">HOME</a>');
+            breadcrumbs = breadcrumbs.concat(separator); 
+      } else if (i !== elements.length - 1) {
+          var urlFragment = elements[i];
+          if (i > 1 && i !== elements.length - 1) {
+              for (b = (i-1); b > 0; b--)  {
+                urlFragment = elements[b].concat('/' + urlFragment);
+              }
+          } 
+          breadcrumbs = breadcrumbs.concat('<a href="/' + urlFragment + '/">' + (elements[i].length > 30 ? acronym : (elements[i].replace(/-/g," "))).toUpperCase() + '</a>');
+          breadcrumbs = breadcrumbs.concat(separator); 
+      } else { 
+          if (i == 0 && i === elements.length - 1) elements[i] = "HOME";
+          breadcrumbs = breadcrumbs.concat('<span class="active">' + (elements[i].length > 30 ? acronym : (elements[i].replace(/-/g," "))).toUpperCase() + '</span>');
+      }
+    }
+    return breadcrumbs;
+}
+
+console.log(generateBC("www.microsoft.com/important/confidential/docs/index.htm#top", " * "));
