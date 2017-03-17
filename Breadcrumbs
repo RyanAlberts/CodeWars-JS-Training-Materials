@@ -3,20 +3,15 @@ function generateBC(url, separator) {
         ignoreList   = ["the","of","in","from","by","with","and", "or", "for", "to", "at", "a"],
         removeAfter  = [".htm",".php",".asp","?","#","index"],
         removeBefore = [".com",".uk",".fr",".it",".pi",".ca",".de"];
-    for (c = 0; c < removeBefore.length; c++) {
-          if (url.includes(removeBefore[c]))  {
-              url = url.substr(url.indexOf(removeBefore[c]));
-          }
-        }
-    for (d = 0; d < removeAfter.length; d++) {
-          if (url.includes(removeAfter[d]))  {
-              url = url.substr(0,url.indexOf(removeAfter[d]));
-          }
-        }
-    var elements     = url.split("/");
-    for (e = 0; e < elements.length; e++) {
-      if (elements[e].length == 0) elements.pop();
+    for (a = 0; a < removeBefore.length; a++) {
+          if (url.includes(removeBefore[a]))  url = url.substr(url.indexOf(removeBefore[a]));
     }
+    for (b = 0; b < removeAfter.length; b++) {
+          if (url.includes(removeAfter[b]))   url = url.substr(0,url.indexOf(removeAfter[b]));
+    }
+    var elements = url.split("/");
+    if (elements[elements.length-1].length == 0) elements.pop();
+    
     for (i = 0; i < elements.length; i++) {
       if (elements[i].length > 30)  {
         var tooLong = elements[i].split("-");
@@ -27,9 +22,16 @@ function generateBC(url, separator) {
           }
         }
       }
-      if (i == 0 && i !== elements.length - 1) {
-            breadcrumbs = breadcrumbs.concat('<a href="/">HOME</a>');
-            breadcrumbs = breadcrumbs.concat(separator); 
+      if (i === 0 || i === elements.length - 1) {
+          if (i === elements.length - 1 && i === 0) {
+              elements[i] = "HOME";
+              breadcrumbs = breadcrumbs.concat('<span class="active">' + (elements[i].length > 30 ? acronym : (elements[i].replace(/-/g," "))).toUpperCase() + '</span>');
+          } else if (i == 0) {
+              breadcrumbs = breadcrumbs.concat('<a href="/">HOME</a>');
+              breadcrumbs = breadcrumbs.concat(separator); 
+          } else {
+                  breadcrumbs = breadcrumbs.concat('<span class="active">' + (elements[i].length > 30 ? acronym : (elements[i].replace(/-/g," "))).toUpperCase() + '</span>');
+          }
       } else if (i !== elements.length - 1) {
           var urlFragment = elements[i];
           if (i > 1 && i !== elements.length - 1) {
@@ -39,12 +41,41 @@ function generateBC(url, separator) {
           } 
           breadcrumbs = breadcrumbs.concat('<a href="/' + urlFragment + '/">' + (elements[i].length > 30 ? acronym : (elements[i].replace(/-/g," "))).toUpperCase() + '</a>');
           breadcrumbs = breadcrumbs.concat(separator); 
-      } else { 
-          if (i == 0 && i === elements.length - 1) elements[i] = "HOME";
-          breadcrumbs = breadcrumbs.concat('<span class="active">' + (elements[i].length > 30 ? acronym : (elements[i].replace(/-/g," "))).toUpperCase() + '</span>');
       }
     }
     return breadcrumbs;
 }
 
 console.log(generateBC("www.microsoft.com/important/confidential/docs/index.htm#top", " * "));
+
+
+
+
+
+
+function generateBC(url, separator) {
+  var arr = url.replace(/((\/index)?\.(html?|(ph|as)p))|(\?.+|#.+|https?:\/\/|\/$)/g, '').split('/'), link='';
+  return arr.map(function(v, i, a) {
+    if(a.length === 1) {
+      return '<span class="active">HOME</span>'
+    } else if(i === a.length -1) {
+      return '<span class="active">'+ acronymize(v) +'</span>';   
+    } else if(i===0) {
+      return '<a href="/">HOME</a>';      
+    } else {
+      link = link ? link + '/' + v : v; 
+      return '<a href="/'+ link +'/">'+ acronymize(v) +'</a>';
+    }
+  }).join(separator);
+}
+
+function acronymize(str) {
+  var removeList = ["the","of","in","from","by","with","and", "or", "for", "to", "at", "a"],
+      re = new RegExp("^(" + removeList.join('|') + ")$"), newStr = '';
+  if(str.length > 30) {
+    str.split('-').forEach(v => !re.test(v) ? newStr += v[0] : undefined);
+    return newStr.toUpperCase();
+  } else {
+    return str.replace(/-/g, ' ').toUpperCase();;
+  }
+}
