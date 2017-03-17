@@ -1,9 +1,4 @@
 function generateBC(url, separator) {
-  // convert all characters to uppercase
-  //if any element in newly created array includes "index.", delete element
-  // start from the back of url => delete everything after "#" or "?"
-  // check  element length >= 30, if so split string at "-", .every taking only 1st ltr, checking against ignore list
-  // first, set everything before ".com" to <a href="/">HOME</a> 
     var breadcrumbs  = "",
         ignoreList   = ["the","of","in","from","by","with","and", "or", "for", "to", "at", "a"],
         removeAfter  = [".htm",".php",".asp","?","#","index"],
