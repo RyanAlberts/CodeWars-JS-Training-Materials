@@ -32,7 +32,7 @@ function generateBC(url, separator) {
           } else {
                   breadcrumbs = breadcrumbs.concat('<span class="active">' + (elements[i].length > 30 ? acronym : (elements[i].replace(/-/g," "))).toUpperCase() + '</span>');
           }
-      } else if (i !== elements.length - 1) {
+      } else  {
           var urlFragment = elements[i];
           if (i > 1 && i !== elements.length - 1) {
               for (b = (i-1); b > 0; b--)  {
