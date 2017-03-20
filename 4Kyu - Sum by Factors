@@ -1,0 +1,49 @@
+function sumOfDivided(lst) {
+  var result          = [],
+      lstPrimeFactors = [],
+      uniquePrimes    = [],
+      count           = [];
+  for (i = 0; i < lst.length; i++)  {
+    var factors = [];
+    var primeFactors = [];
+    var posInput = lst[i];
+    if (lst[i] < 0) posInput *= -1;
+    for (a = 2; a <= posInput; a++) {
+      if (posInput % a == 0)  factors.push(a);  
+    }
+    primeFactors = factors.filter(isPrime);
+    lstPrimeFactors.push(primeFactors);
+  }
+  for (b = 0; b < lstPrimeFactors.length; b++)  {
+    for (d = 0; d < lstPrimeFactors[b].length; d++) {
+      if (uniquePrimes.indexOf(lstPrimeFactors[b][d]) == -1) {
+        uniquePrimes.push(lstPrimeFactors[b][d]);
+        count.push(lst[b]);
+      } else {
+        count[uniquePrimes.indexOf(lstPrimeFactors[b][d])] += lst[b];
+      }
+    }  
+  }  
+  for (e = 0; e < uniquePrimes.length; e++) {
+    var primeValuePair = [];
+    primeValuePair.push(uniquePrimes[e]);
+    primeValuePair.push(count[e]);
+    result.push(primeValuePair);
+  }
+  result.sort((a,b)=>{return a[0] - b[0]});
+  return result;
+}
+
+ function isPrime(num) {
+    if (num < 0) num *= -1;
+    for (var i = 2; i < num; i++) {
+      if (num % i == 0) return num !== num;
+    }
+    return num == num;
+ }
+ 
+ 
+ 
+ 
+ 
+  console.log(sumOfDivided([ 17, 34, 51, 68, 102 ]));
