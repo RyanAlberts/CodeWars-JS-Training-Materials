@@ -1,0 +1,74 @@
+function solution(number){
+  var result      = "",
+  	  romans      = ["", "I", "II", "III", "IV", "V", "X", "XX", "XXX", "XL", "L", "C", "CC", "CCC","CD", "D", "M"],
+  	  digitCount  = number.toString().split("").length,
+  	  index       = 1,
+      digits      = {},
+      n           = number;
+  while (number > 0)  {
+    var temp = number % 10;
+    if (number >= 10) {
+    	digits[index] = temp;
+    	number -= temp;
+    	number /= 10;
+    	index++;
+    } else {
+      digits[index] = number;
+      number = 0;
+      index++;
+    }
+  }
+  for (i = digitCount; i > 0; i--)  {
+      if (i == 1) {
+        digits[i] < 6 ? 
+        result = result.concat(romans[digits[i]]) : digits[i] < 9 ? 
+        result = result.concat((romans[5] + romans[digits[i] - 5])) : result = result.concat((romans[1] + romans[6]));
+      } else if (i == 2)  {
+        digits[i] == 0 ? 
+        result = result.concat(romans[digits[i]]) : digits[i]  < 6 ?
+        result = result.concat(romans[digits[i] + 5]) : digits[i] < 9 ? 
+        result = result.concat((romans[10] + romans[digits[i]])) : result = result.concat((romans[6] + romans[11]));
+      } else if (i == 3)  {
+        digits[i] == 0 ? 
+        result = result.concat(romans[digits[i]]) : digits[i]  < 6 ?
+        result = result.concat(romans[digits[i] + 10]) : digits[i] < 9 ? 
+        result = result.concat((romans[15] + romans[digits[i]+ 5])) : result = result.concat((romans[11] + romans[16]));
+      } else if (i == 4)  {
+        result = result.concat(romans[16].repeat(digits[i]));
+      }
+  } 	
+  return result;
+}
+
+
+
+
+
+
+
+
+function solution(number){
+    var result = "";
+    var transform = function(value, roman){
+        while (number >= value){
+            result+=roman;
+            number -=value;
+        }
+    }
+
+    transform(1000, "M");
+    transform(900, "CM");
+    transform(500, "D");
+    transform(400, "CD");
+    transform(100, "C");
+    transform(90, "XC");
+    transform(50, "L");
+    transform(40, "XL");
+    transform(10, "X");
+    transform(9, "IX");
+    transform(5, "V");
+    transform(4, "IV");
+    transform(1, "I");
+    
+    return result;
+}
